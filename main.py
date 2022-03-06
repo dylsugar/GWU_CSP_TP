@@ -1,51 +1,52 @@
 from FileParse import Parser
 from States import States
 
-# Slack questions: 
 
 
-def populateStates(states,root, numTiles):
+def populateStates(states,root, numTiles, targetCount):
     if(root.count > numTiles):
         return
     states.addStates(root)
     #print((states.root.left.data.state)[0].outerBlock)
     #print((states.root.middle.data.state)[0].elBlock)
     #print(root.data.state)
-    if(root.data.getColorCount(1) > 18):
+    if(root.data.getColorCount(1) > targetCount[0][1]):
         return
-    if(root.data.getColorCount(2) > 19):
+    if(root.data.getColorCount(2) > targetCount[1][1]):
         return
-    if(root.data.getColorCount(3) > 16):
+    if(root.data.getColorCount(3) > targetCount[2][1]):
         return
-    if(root.data.getColorCount(4) > 17):
+    if(root.data.getColorCount(4) > targetCount[3][1]):
         return
     
     print("rootdata:",root.data.getColorCount(1)," ",root.data.getColorCount(2)," ",root.data.getColorCount(3)," ",root.data.getColorCount(4))
     #print(root.data.state)
-    if(root.data.getColorCount(1) == 18):
-        if(root.data.getColorCount(2) == 19):
-            if(root.data.getColorCount(3) == 16):
-                if(root.data.getColorCount(4) == 17):
+    if(root.data.getColorCount(1) == targetCount[0][1]):
+        if(root.data.getColorCount(2) == targetCount[1][1]):
+            if(root.data.getColorCount(3) == targetCount[2][1]):
+                if(root.data.getColorCount(4) == targetCount[3][1]):
                     print("Solution Found")
                     exit()
 
-    populateStates(states, root.left, numTiles)
+    populateStates(states, root.left, numTiles,targetCount)
 
-    populateStates(states, root.mid, numTiles)
+    populateStates(states, root.mid, numTiles,targetCount)
 
-    populateStates(states, root.right, numTiles)
-    #else:
-    #    return
+    populateStates(states, root.right, numTiles,targetCount)
+
     
 
 if __name__ == "__main__":
     path = "test0.txt"
     p = Parser()
-    matrix, numTiles = p.parse(path)
+    matrix, numTiles, tilesCount, targetCount = p.parse(path)
     # List of all possible states implemented with a Tree
-    #for x in matrix: 
-    #    print(x)
-    
+    print("MATRIX: ")
+    for x in matrix: 
+        print(x)
+    print("NUM_TILES: ",numTiles)
+    print("EACH_TILE: ", tilesCount)
+    print("TARGET_TILE: ",targetCount)
     states = States(matrix)
     
     #states.addStates(states.root)
@@ -88,8 +89,11 @@ if __name__ == "__main__":
     #states.addStates(rr)
     #rr = states.root.mid.left.right.mid.mid.right.mid.left.left.right.left.right
     #print("Full Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
-    
-    populateStates(states, states.root, numTiles)
+    #print(targetCount[0][1])
+    #print(targetCount[1][1])
+    #print(targetCount[2][1])
+    #print(targetCount[3][1])
+    populateStates(states, states.root, numTiles, targetCount)
 
 
 

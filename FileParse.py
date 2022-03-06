@@ -9,28 +9,15 @@ class Parser:
         fp = open(path,"r")
         line = fp.readline()
         line = fp.readline()
+        line = fp.readline()
         count = 1
         fList = []
         size = 0
 
-        landscape = False
-        Tile = False
-        Target = False
-
         while line:
-            #if("# Landscape" in line):
-            #    continue
-                
-            #elif("# Tiles:" in line):
-            #    print("tiles true")
-            #    landscape = False
-            #    Tile = True
-            #elif("# Targets" in line):
-            #    print("Targets true")
-            #    Target = True
-            #    Tile = False
+            if("# Tiles:" in line):
+                break
             
-            #if landscape:
             outstring = ""
             line = line.strip("\n")
             for i in range(0,len(line)):
@@ -39,48 +26,51 @@ class Parser:
 
             fArray = outstring.split(".")
             fArray.pop()
-            size = len(fArray)/4
+            if(fArray):
+                size = len(fArray)/4
             result=[fArray[i:i + 4] for i in range(0, len(fArray), 4)]
             if result:
                 fList.append(result)
             line = fp.readline()
             count+=1
-            #elif Tile:
-                #line = fp.readline()
-            #elif Target:
-                #line = fp.readline()
-        ct = 0
 
-        #for x in fList:
-        #    print(x)
-        #    ct+=1
-        #print(ct)
+        newline = fp.readline()
+        tileList = []
+        while newline:
+            if("# Targets" in newline):
+                break
+            tmp = newline.replace("OUTER_BOUNDARY=","")
+            tmp = tmp.replace("EL_SHAPE=","")
+            tmp = tmp.replace("FULL_BLOCK=","")
+            tmp = tmp.replace("}","")
+            tmp = tmp.replace("{","")
+            tmp = tmp.strip("\n")
+            tmp = tmp.split(", ")
+            tileList = [int(i) for i in tmp]
+            newline = fp.readline()
+            newline = fp.readline()
+
+        lastLine = fp.readline()
+        targetList = []
+        while lastLine:
+            singleTarget = lastLine.split(":")
+            targetList.append((int(singleTarget[0].strip()),int(singleTarget[1].strip())))
+            lastLine = fp.readline()
+
+
+
         fullMatrix = []
-        #print(size)
         for x in range(0,int(size*5)):
             fullMatrix.append([])
-
-        bc = 0
-        cnt = 0
-        shallowCount = 0
         
+        cnt = 0
         for x in range(0,5):
             for y in range(0,int(size*4)):
                 if(len(fullMatrix[cnt]) > 3):
                     cnt+=1
-                #print("flist: ",y," ",len(fList))
                 fullMatrix[cnt].append(fList[y][x])
-                #print("CNT: ",fullMatrix[cnt])#,"||||||",fList[y])
-                #print(cnt," ",y)
-        
-                
 
-
-        
-        #for x in fullMatrix:
-        #    print(x)
-
-        return fullMatrix, size*size
+        return fullMatrix, size*size, tileList, targetList
 
 
 

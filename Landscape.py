@@ -1,5 +1,3 @@
-
-
 from queue import Full
 
 
@@ -8,13 +6,7 @@ class Landscape:
         self.state = []
         self.tileCount = tc
         self.matrix = matrix
-        self.bbCount = 0
-        self.elCount = 0
-        self.fbCount = 0
-        #self.colorOne += self.getColorCount(1)
-        #self.colorTwo += self.getColorCount(2)
-        #self.colorThree += self.getColorCount(3)
-        #self.colorFour += self.getColorCount(4)
+
 
     def addInitBlock(self):
         ib = InitBlock(self.matrix)
@@ -53,12 +45,7 @@ class ElBlock:
     
     def getElBlock(self,matrix,count):
         miniMatrix = matrix[count-1]
-
-        #print("Count:",count-1)
-        #print("MM: ",miniMatrix)
         currVals = [miniMatrix[1][1],miniMatrix[1][2],miniMatrix[1][3],miniMatrix[2][1],miniMatrix[2][2],miniMatrix[2][3],miniMatrix[3][1],miniMatrix[3][2],miniMatrix[3][3]]
-        #print("currVals: ",currVals)
-        #print("el block: ",currVals)
         miniVal = []
         for x in currVals:
             if(x.isnumeric()):
@@ -73,7 +60,6 @@ class OuterBoundaryBlock:
     def getOuterBlock(self,matrix,count):
         miniMatrix = matrix[count-1]
         currVals = [miniMatrix[1][1],miniMatrix[1][2],miniMatrix[2][1],miniMatrix[2][2]]
-        #print("outer block:",currVals)
         miniVal = []
         for x in currVals:
             if(x.isnumeric()):
