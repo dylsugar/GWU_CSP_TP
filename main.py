@@ -5,12 +5,23 @@ from States import States
 
 
 def populateStates(states,root, numTiles):
-    
+    if(root.count > numTiles):
+        return
     states.addStates(root)
     #print((states.root.left.data.state)[0].outerBlock)
     #print((states.root.middle.data.state)[0].elBlock)
-    #print("rootdata:",root.data.getColorCount(1)," ",root.data.getColorCount(2)," ",root.data.getColorCount(3)," ",root.data.getColorCount(4))
-    print(root.data.state)
+    #print(root.data.state)
+    if(root.data.getColorCount(1) > 18):
+        return
+    if(root.data.getColorCount(2) > 19):
+        return
+    if(root.data.getColorCount(3) > 16):
+        return
+    if(root.data.getColorCount(4) > 17):
+        return
+    
+    print("rootdata:",root.data.getColorCount(1)," ",root.data.getColorCount(2)," ",root.data.getColorCount(3)," ",root.data.getColorCount(4))
+    #print(root.data.state)
     if(root.data.getColorCount(1) == 18):
         if(root.data.getColorCount(2) == 19):
             if(root.data.getColorCount(3) == 16):
@@ -18,22 +29,13 @@ def populateStates(states,root, numTiles):
                     print("Solution Found")
                     exit()
 
-    if(root.count < numTiles):
-        populateStates(states, root.left, numTiles)
-    else:
-        return
-    
-            
-    if(root.count < numTiles):
-        populateStates(states, root.middle, numTiles)
-    else:
-        return
+    populateStates(states, root.left, numTiles)
 
+    populateStates(states, root.mid, numTiles)
 
-    if(root.count < numTiles):
-        populateStates(states, root.right, numTiles)
-    else:
-        return
+    populateStates(states, root.right, numTiles)
+    #else:
+    #    return
     
 
 if __name__ == "__main__":
@@ -41,24 +43,53 @@ if __name__ == "__main__":
     p = Parser()
     matrix, numTiles = p.parse(path)
     # List of all possible states implemented with a Tree
-    print(matrix)
+    #for x in matrix: 
+    #    print(x)
+    
     states = States(matrix)
-    print(states.root)
-    states.addStates(states.root)
-    print("Left: ",states.root.left.data.state[0].blockVal)
-    print("Middle: ",states.root.middle.data.state[0].blockVal)
-    print("Right:",states.root.right.data.state[0].blockVal)
-    states.addStates(states.root.left)
-    print(states.root.left.data.state[0].blockVal)
-    print(states.root.left.left.data.state[0].blockVal)
-    print(states.root.left.middle.data.state[0].blockVal)
-    print(states.root.left.right.data.state[0].blockVal)
-    #print(states.root.left.left.data.state[0].blockVal)
-    #print(states.root.left.middle.data.state[0].blockVal)
-    #print(states.root.left.middle.data.state[1].blockVal)
-    #print(states.root.left.right.data.state[0].blockVal)
-    #print(states.root.left.right.data.state[1].blockVal)
-    #populateStates(states, states.root, numTiles)
+    
+    #states.addStates(states.root)
+    
+    #print(states.root.data.state)
+    #rr = states.root.mid
+    #print("El Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left
+    #print("Border Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right
+    #print("Full Block",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid
+    #print("El Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid
+    #print("El Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    
+    #rr = states.root.mid.left.right.mid.mid.right
+    #print("Full Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid
+    #print("El Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid.left
+    #print("Border Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid.left.left
+    #print("Border Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid.left.left.right
+    #print("Full Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid.left.left.right.left
+    #print("Border Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    #states.addStates(rr)
+    #rr = states.root.mid.left.right.mid.mid.right.mid.left.left.right.left.right
+    #print("Full Block Data:",rr.data.getColorCount(1)," ",rr.data.getColorCount(2)," ",rr.data.getColorCount(3)," ",rr.data.getColorCount(4))
+    
+    populateStates(states, states.root, numTiles)
 
 
 
