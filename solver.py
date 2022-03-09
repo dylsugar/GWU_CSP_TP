@@ -1,12 +1,8 @@
-from asyncio.proactor_events import _ProactorDuplexPipeTransport
-from time import time
-
-from paramiko import PasswordRequiredException
 from FileParse import Parser
 from TreeState import TreeNode
-from Landscape import LandscapeState, ElBlock, OuterBoundaryBlock, FullBlock
-from backtrack import backtrack_recursive, targetCheck
-import time
+from Landscape import LandscapeState
+from ac3 import AC3
+from backtrack import backtrack_recursive
 
 
 def solve(matrix):
@@ -16,12 +12,15 @@ def solve(matrix):
     initScape = LandscapeState(matrix, 0)
     initScape.addInitBlock()
     root = TreeNode(initScape,0)
+    
     # AC3 Algorithm
+    solutionExists = AC3(matrix, root, numTiles, tilesCount, targetCount)
 
     # AC3 Algorithm conditional if exists
+    if not solutionExists:
 
-    # Backtrack Search Algorithm w/ LCV Heuristic
-    backtrack_recursive(matrix, root, numTiles, tilesCount, targetCount)
+        # Backtrack Search Algorithm w/ LCV Heuristic
+        backtrack_recursive(matrix, root, numTiles, tilesCount, targetCount)
     
     
 
@@ -29,7 +28,10 @@ def solve(matrix):
 
 
 if __name__ == "__main__":
+
+    # User can change this to use txt file of your choice
     path = "test0.txt"
+
     p = Parser()
     matrix, numTiles, tilesCount, targetCount = p.parse(path)
     # List of all possible states implemented with a Tree
@@ -40,9 +42,11 @@ if __name__ == "__main__":
     print("OUTER BOUNDARY Count: ",tilesCount[0],", EL SHAPE COUNT: ",tilesCount[1],", FULL BLOCK Count: ",tilesCount[2])
     print("TARGET_TILE (Bush): ",targetCount)
     
+    # Main Method
     solve(matrix)
 
 
+    # Used for debugging my program
     """
     root.assignAll(matrix)
     rr = root.mid

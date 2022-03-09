@@ -1,6 +1,6 @@
 from heuristic import order_domain_values
 from Landscape import ElBlock, OuterBoundaryBlock, FullBlock
-import time
+
 """
 Backtracking Search Algorithm
 
@@ -22,10 +22,9 @@ def backtrack_recursive(matrix, root, numTiles, tilesCount, targetCount):
     
     if(targetCheck(root, numTiles, tilesCount, targetCount)):
         root.data.printGoalState()
-        print("tc:",root.data.getColorCount(1)," ",root.data.getColorCount(2)," ",root.data.getColorCount(3)," ",root.data.getColorCount(4))
-        print("bc:",root.data.getBlockCount(ElBlock)," ",root.data.getBlockCount(OuterBoundaryBlock)," ",root.data.getBlockCount(FullBlock),"\n")
+        print("Color Target Final State:",root.data.getColorCount(1)," ",root.data.getColorCount(2)," ",root.data.getColorCount(3)," ",root.data.getColorCount(4))
+        print("Tile Target Final State:",root.data.getBlockCount(ElBlock)," ",root.data.getBlockCount(OuterBoundaryBlock)," ",root.data.getBlockCount(FullBlock),"\n")
         exit()
-        #return 
 
     
     for branch in order_domain_values(matrix, root, numTiles, tilesCount, targetCount):

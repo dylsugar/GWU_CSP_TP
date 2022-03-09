@@ -13,8 +13,12 @@ we need to check children LCV to determine this.
 """
 
 def order_domain_values(matrix, root, numTiles, tilesCount, targetCount):
+
+    # for the case of the last state
     if root.count >= numTiles-1:
         return []
+    
+
     root.assignAll(matrix)
     lc = getConstraintChoices(matrix, root.left, numTiles, tilesCount, targetCount)
     mc = getConstraintChoices(matrix, root.mid, numTiles, tilesCount, targetCount)
@@ -23,10 +27,11 @@ def order_domain_values(matrix, root, numTiles, tilesCount, targetCount):
     branchList = ['left','mid','right']
     choiceList = [len(lc),len(mc),len(rc)]
     minChoice = min(choiceList)
-
+    
     if(choiceList.count(minChoice) != len(choiceList)):
         for x in range(choiceList.count(minChoice)):
             branchList.pop(choiceList.index(minChoice))
+
     root.unassignAll()
     return branchList
 
@@ -40,9 +45,14 @@ to choose based on the constraints that the child node
 """
 def getConstraintChoices(matrix, root, numTiles, tilesCount, targetCount):
 
+    # assign left, right, and mid landscapes 
     root.assignAll(matrix)
+
+    
     children = [root.left, root.mid, root.right]
     finalChildren = []
+
+    # constraints against target values 
     for child in children:
 
         if(child.data.getColorCount(1) > targetCount[0][1]):

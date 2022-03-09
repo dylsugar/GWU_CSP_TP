@@ -1,24 +1,28 @@
+from heuristic import getConstraintChoices
 # Constraint Propagation AC3
 
-def AC3(csp, queue=None):
+def AC3(matrix, root, numTiles, tilesCount, targetCount, queue=None):
     
     if queue == None:
-        queue = list(csp.binary_constraints)
+        queue = list(getConstraintChoices(matrix, root, numTiles, tilesCount, targetCount))
 
     while queue:
 
-        (xi, xj) = queue.pop(0)
+        child = queue.pop(0)
+        if child == "left":
+            child = root.left
+        elif child == "right":
+            child = root.right
+        elif child == "mid":
+            child = root.mid
+        
+        child.assignAll(matrix)
 
-        if remove_inconsistent_values(csp, xi, xj):
-            if len(csp.choices[xi]) == 0:
+        if len(getConstraintChoices(matrix, child, numTiles, tilesCount, targetCount)) == 1:
                 return False
-            for neighbor in csp.siblingsp[xi]:
-                if neighbor != xi:
-                    queue.append((neighbor,xi))
+        for neighbor in getConstraintChoices(matrix, root, numTiles, tilesCount, targetCount):
+            queue.append(neighbor)
+        return False
 
-def remove_inconsistent_values(csp, xi, xj):
-    
-    removed = False
-
-    for pick in csp.choices[xi]:
+                
         

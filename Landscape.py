@@ -1,5 +1,5 @@
 """
-Landscape class  
+Landscape class represents data of TreeNode
 """
 class LandscapeState:
     def __init__(self, matrix, tc):
@@ -25,6 +25,9 @@ class LandscapeState:
         fb = FullBlock()
         self.state.append(fb)
 
+    """
+    Calculate count of a color within a specific tile
+    """
     def getColorCount(self,color):
         clist = []
         for innerState in self.state:
@@ -33,6 +36,10 @@ class LandscapeState:
 
         return clist.count(color)
     
+
+    """
+    Calculate count of a specific block within the whole landscape
+    """
     def getBlockCount(self,blockType):
         blockCount = 0
         for innerState in self.state:
@@ -40,24 +47,35 @@ class LandscapeState:
                 blockCount+=1
         return blockCount
 
+
+
+    """
+    Account for adding past parent values to current landscape 
+    """
     def addParentTile(self,parent):
         self.state+=parent
 
+
+    
     def printGoalState(self):
         print("\n\n##### Solution Found!!! #####\n\n")
         self.state.pop(0)
-        print(len(self.state))
         for x in self.state:
             print(x.miniMatrix)
 
 
 
+"""
+Initial Block - Void value purpose of placeholding
+"""
 class InitBlock:
     def __init__(self, matrix):
         self.blockVal = [0,0]
 
 
-
+"""
+El Block Object
+"""
 class ElBlock:
     def __init__(self, matrix, count):
         self.blockVal = self.getElBlock(matrix,count)
@@ -74,24 +92,31 @@ class ElBlock:
         return miniVal
 
 
+"""
+OuterBoundaryBlocks
+"""
 class OuterBoundaryBlock:
     def __init__(self,matrix,count):
         self.blockVal = self.getOuterBlock(matrix,count)
 
     def getOuterBlock(self,matrix,count):
         miniMatrix = matrix[count]
-
-        #if count == 25:
-        #    print("Reached")
-        #    exit()    
+  
         self.miniMatrix = miniMatrix
-        currVals = [miniMatrix[1][1],miniMatrix[1][2],miniMatrix[2][1],miniMatrix[2][2]]
+        currVals = [miniMatrix[1][1], miniMatrix[1][2], miniMatrix[2][1], miniMatrix[2][2]]
         miniVal = []
+
         for x in currVals:
             if(x.isnumeric()):
                 miniVal.append(int(x))
+
         return miniVal
 
+
+
+"""
+Full Block Block
+"""
 class FullBlock:
     def __init__(self):
         self.blockVal = []

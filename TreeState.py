@@ -57,6 +57,7 @@ class TreeNode:
         self.mid = None
         self.right = None
         #self.count = self.count - 1
+        
 
 
 
