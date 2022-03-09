@@ -2,7 +2,7 @@ from heuristic import order_domain_values
 from Landscape import ElBlock, OuterBoundaryBlock, FullBlock
 
 """
-Backtracking Search Algorithm
+Backtracking Search Algorithm : DFS expansion nodes whilst pruning invalid variables from domain
 
 if assignment is complete then return true
 var = select unassigned variable(csp)
