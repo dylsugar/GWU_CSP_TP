@@ -1,11 +1,12 @@
-from queue import Full
-
-
-class Landscape:
+"""
+Landscape class  
+"""
+class LandscapeState:
     def __init__(self, matrix, tc):
         self.state = []
         self.tileCount = tc
         self.matrix = matrix
+        self.miniMatrix = []
 
 
     def addInitBlock(self):
@@ -31,20 +32,40 @@ class Landscape:
                     clist.append(inner)
 
         return clist.count(color)
+    
+    def getBlockCount(self,blockType):
+        blockCount = 0
+        for innerState in self.state:
+            if type(innerState) == blockType:
+                blockCount+=1
+        return blockCount
 
     def addParentTile(self,parent):
         self.state+=parent
 
+    def printGoalState(self):
+        print("\n\n##### Solution Found!!! #####\n\n")
+        self.state.pop(0)
+        print(len(self.state))
+        for x in self.state:
+            print(x.miniMatrix)
+
+
+
 class InitBlock:
     def __init__(self, matrix):
-        self.blockVal = [-1,-1]
+        self.blockVal = [0,0]
+
+
 
 class ElBlock:
     def __init__(self, matrix, count):
         self.blockVal = self.getElBlock(matrix,count)
     
     def getElBlock(self,matrix,count):
-        miniMatrix = matrix[count-1]
+        
+        miniMatrix = matrix[count]
+        self.miniMatrix = miniMatrix
         currVals = [miniMatrix[1][1],miniMatrix[1][2],miniMatrix[1][3],miniMatrix[2][1],miniMatrix[2][2],miniMatrix[2][3],miniMatrix[3][1],miniMatrix[3][2],miniMatrix[3][3]]
         miniVal = []
         for x in currVals:
@@ -58,7 +79,12 @@ class OuterBoundaryBlock:
         self.blockVal = self.getOuterBlock(matrix,count)
 
     def getOuterBlock(self,matrix,count):
-        miniMatrix = matrix[count-1]
+        miniMatrix = matrix[count]
+
+        #if count == 25:
+        #    print("Reached")
+        #    exit()    
+        self.miniMatrix = miniMatrix
         currVals = [miniMatrix[1][1],miniMatrix[1][2],miniMatrix[2][1],miniMatrix[2][2]]
         miniVal = []
         for x in currVals:
@@ -69,3 +95,4 @@ class OuterBoundaryBlock:
 class FullBlock:
     def __init__(self):
         self.blockVal = []
+        self.miniMatrix = []
